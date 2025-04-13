@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Управление фотогалереей</h2>
+    
+    <!-- Форма загрузки новых фото -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Добавить новое фото</h5>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="photo" class="form-label">Выберите файл</label>
+                    <input class="form-control" type="file" id="photo" name="photo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Описание</label>
+                    <input type="text" class="form-control" id="description" name="description">
+                </div>
+                <button type="submit" class="btn btn-primary">Загрузить</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Список существующих фото -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Текущие фотографии</h5>
+            <div class="row">
+                {% for photo in photos %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='uploads/' + photo.filename) }}" 
+                             class="card-img-top" 
+                             alt="{{ photo.description }}">
+                        <div class="card-body">
+                            <p class="card-text">{{ photo.description }}</p>
+                            <p class="text-muted small">
+                                {{ photo.upload_date.strftime('%d.%m.%Y %H:%M') }}
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{{ url_for('delete_photo', id=photo.id) }}" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Удалить это фото?')">
+                                Удалить
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <p class="text-muted">Нет загруженных фотографий</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

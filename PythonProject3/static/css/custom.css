@@ -1,0 +1,25 @@
+/* Плавное появление секций */
+section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s;
+}
+
+section.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Анимация появления при загрузке */
+document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => observer.observe(section));
+});

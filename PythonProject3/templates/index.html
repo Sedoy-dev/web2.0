@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Герой-секция -->
+<section class="hero-section rounded-3 mb-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Добро пожаловать!</h1>
+        <p class="lead">Официальный сайт нашего класса. Здесь вы найдете все важные материалы и события.</p>
+    </div>
+</section>
+
+<!-- Новости -->
+<section id="news" class="mb-5">
+    <div class="container">
+        <h2 class="text-center mb-4"><i class="bi bi-newspaper"></i> Последние новости</h2>
+        <div class="row g-4">
+            {% for item in news %}
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.content|truncate(100) }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="text-muted">
+                            {{ item.date_posted.strftime('%d.%m.%Y') }}
+                        </small>
+                        <a href="#" class="btn btn-sm btn-outline-primary float-end">Читать</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">Новостей пока нет</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Расписание -->
+<section id="schedule" class="mb-5 py-4 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4"><i class="bi bi-calendar3"></i> Расписание</h2>
+        {% if schedule %}
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>День</th>
+                                <th>Уроки</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for day in schedule %}
+                            <tr>
+                                <td><strong>{{ day.day }}</strong></td>
+                                <td>
+                                    <ol class="mb-0">
+                                        {% for lesson in day.lessons %}
+                                        <li>{{ lesson }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center">
+            Расписание пока не заполнено
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Галерея -->
+<section id="gallery" class="mb-5">
+    <div class="container">
+        <h2 class="text-center mb-4"><i class="bi bi-images"></i> Фотогалерея</h2>
+        {% if photos %}
+        <div class="photo-gallery">
+            {% for photo in photos %}
+            <div class="card feature-card">
+                <img src="{{ url_for('static', filename='uploads/' + photo.filename) }}"
+                     class="card-img-top"
+                     alt="{{ photo.description }}"
+                     style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text">{{ photo.description|default('Без описания', true) }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">Фотографий пока нет</div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

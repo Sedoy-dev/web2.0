@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Управление новостями</h2>
+    
+    <!-- Форма добавления новости -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Добавить новость</h5>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Заголовок</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Содержание</label>
+                    <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Опубликовать</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Список новостей -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Текущие новости</h5>
+            <div class="list-group">
+                {% for item in news %}
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ item.title }}</h5>
+                        <small>{{ item.date_posted.strftime('%d.%m.%Y %H:%M') }}</small>
+                    </div>
+                    <p class="mb-1">{{ item.content }}</p>
+                    <a href="{{ url_for('delete_news', id=item.id) }}"
+                       class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('Вы уверены, что хотите удалить эту новость?')">
+                        Удалить
+                    </a>
+                </div>
+                {% else %}
+                <p class="text-muted">Нет опубликованных новостей</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Подтверждение удаления
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.btn-outline-danger');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('Вы уверены, что хотите удалить эту новость?')) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

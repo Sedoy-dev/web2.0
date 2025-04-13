@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Расписание{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="schedule-table table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>День</th>
+                <th>1 урок</th>
+                <th>2 урок</th>
+                <th>3 урок</th>
+                <th>4 урок</th>
+                <th>5 урок</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in schedule %}
+            <tr>
+                <td data-label="День"><strong>{{ day.day }}</strong></td>
+                <td data-label="1 урок">{{ day.lesson1 or '-' }}</td>
+                <td data-label="2 урок">{{ day.lesson2 or '-' }}</td>
+                <td data-label="3 урок">{{ day.lesson3 or '-' }}</td>
+                <td data-label="4 урок">{{ day.lesson4 or '-' }}</td>
+                <td data-label="5 урок">{{ day.lesson5 or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if current_user.role == 'admin' %}
+<div class="mt-3">
+    <button class="btn btn-outline-primary">
+        <i class="bi bi-pencil-square"></i> Редактировать
+    </button>
+</div>
+{% endif %}
+{% endblock %}

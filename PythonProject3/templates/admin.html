@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Панель администратора</h2>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Новости</h5>
+                    <a href="{{ url_for('manage_news') }}" class="btn btn-primary">
+                        Управление новостями
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Расписание</h5>
+                    <a href="{{ url_for('manage_schedule') }}" class="btn btn-primary">
+                        Управление расписанием
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Фотогалерея</h5>
+                    <a href="{{ url_for('manage_photos') }}" class="btn btn-primary">
+                        Управление фотографиями
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

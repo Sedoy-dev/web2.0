@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Управление расписанием</h2>
+    
+    <form method="POST">
+        {% for day in days %}
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5>{{ day }}</h5>
+            </div>
+            <div class="card-body">
+                {% for i in range(10) %}
+                <div class="mb-3">
+                    <label for="{{ day }}-lesson{{ i }}" class="form-label">Урок {{ i+1 }}</label>
+                    <input type="text" class="form-control"
+                           id="{{ day }}-lesson{{ i }}"
+                           name="{{ day }}-lesson{{ i }}"
+                           value="{{ schedule[day][i] if i < schedule[day]|length else '' }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-save"></i> Сохранить все изменения
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
